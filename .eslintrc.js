@@ -34,6 +34,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
     'no-param-reassign': 'off',
+    'linebreak-style': ['error', 'windows'],
     'arrow-parens': [0, { requireForBlockBody: false }],
     'jsx-quotes': 'off',
     'react/jsx-one-expression-per-line': 'off',
