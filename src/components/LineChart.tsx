@@ -10,12 +10,9 @@ import {
   useQuery,
   gql,
 } from '@apollo/client';
-
-// type MeasurementQuery = {
-//   metricName: String
-//   after: number
-//   before: number
-// };
+import CircularProgress from '@mui/material/CircularProgress';
+import ErrorMessage from './ErrorMessage';
+import './graph.css';
 
 const query = gql`
   query ($input: MeasurementQuery!) {
@@ -30,11 +27,9 @@ const query = gql`
 
 const LineChartDisplay = () => {
   const chosenMetric = useSelector((state: any) => state.searchItem);
-  chosenMetric.forEach((value: any) => {
-    console.log(value);
-  });
+
   const input = {
-    metricName: 'waterTemp',
+    metricName: chosenMetric[0],
   };
 
   const { loading, error, data } = useQuery<any>(query, {
@@ -43,35 +38,22 @@ const LineChartDisplay = () => {
     },
   });
 
-  console.log(loading, error);
   const convertData = data?.getMeasurements.map((value: any) => ({
     uv: value.value,
-    pv: value.at,
-    amt: value.at,
   }));
 
-  // const graphdata = [
-  //   {
-  //     name: 'Page A',
-  //     uv: 400,
-  //     pv: 2400,
-  //     amt: 2400,
-  //   },
-  //   {
-  //     name: 'Page B',
-  //     uv: 400,
-  //     pv: 2400,
-  //     amt: 2400,
-  //   },
-  // ];
-
-  return data ? (
-    <LineChart width={1000} height={800} data={convertData}>
+  if (loading && !data) {
+    return (
+      <CircularProgress className='spinner' size="10rem" />
+    );
+  }
+  return !error ? (
+    <LineChart width={1500} height={800} data={convertData}>
       <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-      <XAxis dataKey="time" />
-      <YAxis dataKey="F" />
+      <XAxis />
+      <YAxis />
     </LineChart>
-  ) : <div />;
+  ) : <ErrorMessage />;
 };
 
 export default LineChartDisplay;

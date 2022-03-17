@@ -5,7 +5,8 @@ import {
 } from '@apollo/client';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { CardHeader } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+import './graph.css';
 
 const GraphDisplay = ({ metricName }) => {
   const heartQuery = gql`
@@ -24,19 +25,16 @@ const GraphDisplay = ({ metricName }) => {
       metricName,
     },
   });
-  console.log(data);
-  console.log(loading, error);
-
-  return (
-    <Card>
-      <CardHeader>
-        {data.getLastKnownMeasurement.metric}
-      </CardHeader>
+  return (!loading || error) ? (
+    <Card className='unitCard'>
       <CardContent>
-        {data.getLastKnownMeasurement.value} {data.getLastKnownMeasurement.unit}
+        <div>
+          <h2>{data?.getLastKnownMeasurement.metric}</h2>
+          <p>{data?.getLastKnownMeasurement.value} {data?.getLastKnownMeasurement.unit}</p>
+        </div>
       </CardContent>
     </Card>
-  );
+  ) : <CircularProgress />;
 };
 
 export default GraphDisplay;

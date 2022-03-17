@@ -1,0 +1,24 @@
+.cardDisplay {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.unitCard {
+  margin: 20px;
+  padding: 20px;
+}
+
+.searchField {
+  margin: 20px;
+}
+
+.spinner {
+  margin-top: 10%;
+  margin-left: 40%;
+}
+
+.errorMessage {
+  margin: 50px;
+}

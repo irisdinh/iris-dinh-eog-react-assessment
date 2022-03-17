@@ -7,6 +7,7 @@ import {
 import Chip from '@mui/material/Chip';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import './graph.css';
 
 const query = gql`
   query {
@@ -19,7 +20,6 @@ const query = gql`
 const SearchBar = () => {
   const { loading, error, data } = useQuery<any>(query, {
   });
-  console.log(loading, error);
   const dispatch = useDispatch();
   const [chosenItems, setChosenItems] = useState([]);
 
@@ -35,17 +35,19 @@ const SearchBar = () => {
     <Autocomplete
       multiple
       value={chosenItems}
+      className="searchField"
       onChange={(event, newValue) => handleSubmit(newValue)}
       options={data ? data.scalar : []}
+      disabled={loading || error}
       renderTags={(tagValue, getTagProps) => tagValue.map((option, index) => (
         <Chip
           label={option}
           {...getTagProps({ index })}
         />
       ))}
-      style={{ width: 500 }}
+      style={{ width: 1000 }}
       renderInput={(params) => (
-        <TextField {...params} label="Fixed tag" placeholder="Favorites" />
+        <TextField {...params} placeholder="Search Here" />
       )}
     />
   );
